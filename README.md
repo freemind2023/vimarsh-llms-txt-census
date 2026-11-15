@@ -34,6 +34,8 @@ Full script: [`census_script.py`](census_script.py)
 
 ## Results (2026-11-15, n=100,000)
 
+![llms.txt adoption overview](charts/chart-1-adoption-overview.png)
+
 | Metric | Value |
 |---|---|
 | Have `llms.txt` | 20,845 / 100,000 (20.8%) |
@@ -50,6 +52,8 @@ Full script: [`census_script.py`](census_script.py)
 | PerplexityBot | 1,869 | 3,603 | 34.2% |
 | Google-Extended | 6,010 | 3,419 | 63.7% |
 
+![AI bot blocking rate](charts/chart-2-bot-blocking-rate.png)
+
 **Adoption by site popularity tier:**
 
 | Rank tier | `llms.txt` adoption |
@@ -57,6 +61,8 @@ Full script: [`census_script.py`](census_script.py)
 | Top 1,000 | 24.7% |
 | 1,001–10,000 | 19.7% |
 | 10,001–100,000 | 20.9% |
+
+![llms.txt adoption by site popularity tier](charts/chart-3-adoption-by-tier.png)
 
 A smaller 10,000-domain pilot run (same method, same day) found 20.1%
 overall adoption — closely matching the full 100,000-domain result (20.8%),
