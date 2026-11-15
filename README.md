@@ -1,38 +1,52 @@
-# Vimarsh llms.txt Adoption Census
+<div align="center">
 
-A real, reproducible measurement of AI-crawler readiness across 100,000 real
-websites — run as part of Vimarsh's weekly Founder Outreach research series.
+# 🔍 Vimarsh llms.txt Adoption Census
 
-**No figure in this repository is estimated, guessed, or invented.** Every
-number comes from a real HTTP check against real domains, run on
-2026-11-15.
+**A real, reproducible measurement of AI-crawler readiness across 100,000 real websites.**
 
-## What this measures
+![Domains Checked](https://img.shields.io/badge/domains_checked-100%2C000-1f3864?style=flat-square)
+![Cost](https://img.shields.io/badge/cost-%240%20free%20tier%20only-2e8b57?style=flat-square)
+![Reproducible](https://img.shields.io/badge/reproducible-yes-1f3864?style=flat-square)
+![Last Updated](https://img.shields.io/badge/last_updated-2026--11--15-555555?style=flat-square)
+![License](https://img.shields.io/badge/license-none%20%E2%80%94%20public%20data-lightgrey?style=flat-square)
 
-1. What fraction of real websites have published an `llms.txt` file (an
-   optional file aimed at AI engines, similar in spirit to `robots.txt`).
-2. How each site's `robots.txt` treats six real AI-crawler user-agents:
-   `GPTBot`, `ClaudeBot`, `Claude-Web`, `anthropic-ai`, `PerplexityBot`,
-   `Google-Extended`.
+*Part of Vimarsh's weekly, zero-cost Founder Outreach research series — one real experiment every Sunday, published openly regardless of outcome.*
+
+</div>
+
+---
+
+## ⚡ TL;DR
+
+| | |
+|---|---|
+| **What** | Checked 100,000 real websites for `llms.txt` + AI-crawler `robots.txt` permissions |
+| **Headline number** | **20.8%** of sites have published `llms.txt` |
+| **Most interesting finding** | Anthropic's own 3 bot identities are blocked at wildly different rates (60.8% – 78.3%) |
+| **Least-blocked AI crawler** | **PerplexityBot** (34.2% blocked vs. 60–78% for everyone else) |
+| **Cost to run** | $0 — Google Colab free tier, no paid APIs |
+| **Can you check our work?** | Yes — raw per-domain data + full script included below |
+
+> **No figure in this repository is estimated, guessed, or invented.** Every number comes from a real HTTP check against real domains, run on 2026-11-15.
+
+---
+
+## 🎯 What this measures
+
+1. What fraction of real websites have published an `llms.txt` file (an optional file aimed at AI engines, similar in spirit to `robots.txt`).
+2. How each site's `robots.txt` treats six real AI-crawler user-agents: `GPTBot`, `ClaudeBot`, `Claude-Web`, `anthropic-ai`, `PerplexityBot`, `Google-Extended`.
 3. Whether adoption/blocking differs by site popularity tier.
 
-## Method
+## 🧪 Method
 
-- **Domain list:** [Tranco](https://tranco-list.eu/) — a research-grade
-  domain popularity list combining several ranking sources. Top 100,000
-  domains, snapshot taken 2026-11-15.
-- **Checks:** one HTTP GET to `/llms.txt` and one to `/robots.txt` per
-  domain. `robots.txt` parsed for each named AI-bot user-agent block AND a
-  blanket `User-agent: *` disallow rule.
-- **Concurrency:** 150 simultaneous requests, 6-second timeout per request.
-  Each domain receives at most 2 requests total — no site is hit
-  repeatedly.
-- **Runtime:** 41.9 minutes for the full 100,000-domain run, on Google
-  Colab's free tier (zero cost, no paid APIs).
+- **Domain list:** [Tranco](https://tranco-list.eu/) — a research-grade domain popularity list combining several ranking sources. Top 100,000 domains, snapshot taken 2026-11-15.
+- **Checks:** one HTTP GET to `/llms.txt` and one to `/robots.txt` per domain. `robots.txt` parsed for each named AI-bot user-agent block AND a blanket `User-agent: *` disallow rule.
+- **Concurrency:** 150 simultaneous requests, 6-second timeout per request. Each domain receives at most 2 requests total — no site is hit repeatedly.
+- **Runtime:** 41.9 minutes for the full 100,000-domain run, on Google Colab's free tier (zero cost, no paid APIs).
 
-Full script: [`census_script.py`](census_script.py)
+📄 Full script: [`census_script.py`](census_script.py)
 
-## Results (2026-11-15, n=100,000)
+## 📊 Results (2026-11-15, n=100,000)
 
 ![llms.txt adoption overview](charts/chart-1-adoption-overview.png)
 
@@ -49,7 +63,7 @@ Full script: [`census_script.py`](census_script.py)
 | ClaudeBot | 6,403 | 4,120 | 60.8% |
 | Claude-Web | 5,337 | 1,478 | 78.3% |
 | anthropic-ai | 5,786 | 2,159 | 72.8% |
-| PerplexityBot | 1,869 | 3,603 | 34.2% |
+| **PerplexityBot** | 1,869 | 3,603 | **34.2%** |
 | Google-Extended | 6,010 | 3,419 | 63.7% |
 
 ![AI bot blocking rate](charts/chart-2-bot-blocking-rate.png)
@@ -64,50 +78,26 @@ Full script: [`census_script.py`](census_script.py)
 
 ![llms.txt adoption by site popularity tier](charts/chart-3-adoption-by-tier.png)
 
-A smaller 10,000-domain pilot run (same method, same day) found 20.1%
-overall adoption — closely matching the full 100,000-domain result (20.8%),
-which is a real cross-validation signal that this measurement is stable,
-not noise.
+✅ **Cross-validation:** a smaller 10,000-domain pilot run (same method, same day) found 20.1% overall adoption — closely matching the full 100,000-domain result (20.8%), a real signal this measurement is stable, not noise.
 
-## What this can and cannot prove
+## ⚠️ What this can and cannot prove
 
-**Can show:** whether a file exists, and what a domain's `robots.txt`
-explicitly declares.
+**Can show:** whether a file exists, and what a domain's `robots.txt` explicitly declares.
 
-**Cannot show:** whether any AI engine actually reads or uses `llms.txt`,
-or whether a declared `robots.txt` directive is actually honored by a given
-crawler. A `robots.txt` entry is a declared policy, not observed crawler
-behavior — a "blocked" bot may still reach content another way, and an
-"allowed" one may never crawl it at all. User-agent strings can also be
-spoofed by third parties, though that does not affect what was measured
-here (declared policy, not traffic logs).
+**Cannot show:** whether any AI engine actually reads or uses `llms.txt`, or whether a declared `robots.txt` directive is actually honored by a given crawler. A `robots.txt` entry is a declared policy, not observed crawler behavior — a "blocked" bot may still reach content another way, and an "allowed" one may never crawl it at all. User-agent strings can also be spoofed by third parties, though that does not affect what was measured here (declared policy, not traffic logs).
 
-The 20.8% adoption figure is roughly double a previously published ~10%
-estimate from another source/domain list — this discrepancy is reported
-honestly; we do not know whether it reflects a different domain list,
-genuine adoption growth over time, or a methodology difference, and make no
-claim either way.
+The 20.8% adoption figure is roughly double a previously published ~10% estimate from another source/domain list — this discrepancy is reported honestly; we do not know whether it reflects a different domain list, genuine adoption growth over time, or a methodology difference, and make no claim either way.
 
-The most notable finding — that Anthropic's three distinct bot identities
-(`ClaudeBot`, `Claude-Web`, `anthropic-ai`) are blocked at meaningfully
-different rates (60.8% vs. 78.3% vs. 72.8%) from each other — is reported
-as an observation, not an explained cause. A plausible but unconfirmed
-hypothesis: site owners may be copying boilerplate "block AI" robots.txt
-snippets without distinguishing between these three related but distinct
-user-agents.
+The most notable finding — that Anthropic's three distinct bot identities (`ClaudeBot`, `Claude-Web`, `anthropic-ai`) are blocked at meaningfully different rates (60.8% vs. 78.3% vs. 72.8%) from each other — is reported as an observation, not an explained cause. A plausible but unconfirmed hypothesis: site owners may be copying boilerplate "block AI" robots.txt snippets without distinguishing between these three related but distinct user-agents.
 
-## Files
+## 📁 Files
 
-- `census_script.py` — the full, runnable Python script (Google Colab,
-  free tier, zero API cost)
-- `Vimarsh_llms_txt_Adoption_Census_100k_RAW_DATA.xlsx` — raw, per-domain
-  results for all 100,000 domains checked, fully auditable (includes a
-  Methodology sheet)
+- [`census_script.py`](census_script.py) — the full, runnable Python script (Google Colab, free tier, zero API cost)
+- [`Vimarsh_llms_txt_Adoption_Census_100k_RAW_DATA.xlsx`](Vimarsh_llms_txt_Adoption_Census_100k_RAW_DATA.xlsx) — raw, per-domain results for all 100,000 domains checked, fully auditable (includes a Methodology sheet)
+- [`charts/`](charts/) — the three result charts as standalone PNGs
 
-## About
+## 🏢 About
 
-Published by [Vimarsh](https://vimarshai.com) — AI visibility measurement
-for ChatGPT, Gemini, Perplexity, and Claude. Built by Free Mind Consultancy.
+Published by **[Vimarsh](https://vimarshai.com)** — AI visibility measurement for ChatGPT, Gemini, Perplexity, and Claude. Built by Free Mind Consultancy.
 
-Part of a weekly, zero-cost research series — one real experiment every
-Sunday, results published openly regardless of outcome.
+*See how machines see your business.*
